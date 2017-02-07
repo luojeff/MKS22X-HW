@@ -5,6 +5,8 @@ public class Recursion {
 	System.out.println("Square Root: " + sqrt(16));
 	System.out.println("Square Root: " + sqrt(100));
 	System.out.println("Square Root: " + sqrt(1234432112));
+	System.out.println("Square Root: " + sqrt(0));
+	System.out.println("Square Root: " + sqrt(123.123));
 	//System.out.println("Square Root: " + sqrt(-1));
     }
 
@@ -14,7 +16,9 @@ public class Recursion {
     }
     
     public static double sqrt(double n){
-        if(n < 0){
+        if(n <= 0){
+	    if(n == 0)
+		return n;
 	    throw new IllegalArgumentException();
 	}
         return sqrtHelper(n, 1);
