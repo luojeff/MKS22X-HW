@@ -1,15 +1,6 @@
 import java.lang.IllegalArgumentException;
 
 public class Recursion {
-    public static void main(String[] args){
-	System.out.println("Square Root: " + sqrt(16));
-	System.out.println("Square Root: " + sqrt(100));
-	System.out.println("Square Root: " + sqrt(1234432112));
-	System.out.println("Square Root: " + sqrt(0));
-	System.out.println("Square Root: " + sqrt(123.123));
-	//System.out.println("Square Root: " + sqrt(-1));
-    }
-
     public static String name(){
 	String name = "Luo,Jeffrey";
 	return name;
