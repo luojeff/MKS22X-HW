@@ -5,7 +5,7 @@ import java.util.ArrayList;
  */
 public class QueenBoard {
     private int[][] board;
-    private int solutionCount;
+    private int solutionCount = -1;
 
     private ArrayList<int[]> queenOrder;
 
@@ -19,13 +19,14 @@ public class QueenBoard {
     }
 
     public void solve() {
+	solutionCount++;
 	board = new int[board.length][board.length];
 	solveH(0, true);
     }
 
     public void countSolutions() {
 	board = new int[board.length][board.length];
-	solutionCount = 0;
+	solutionCount++;
 	solveH(0, false);
     }
 
@@ -67,7 +68,7 @@ public class QueenBoard {
 	}
     }
 
-    public int getCount() {
+    public int getSolutionCount() {
 	return solutionCount;
     }
 
@@ -173,14 +174,14 @@ public class QueenBoard {
     }
 
 	
-    // Displays array in 2-d fashion
+    // Displays number format of string (debugging)
     /* 
        public String toString() {
-       String retArray = "";
-       for (int[] row : board) {
-       for (int col : row) {
-       retArray += col + " ";
-       }
+           String retArray = "";
+           for (int[] row : board) {
+               for (int col : row) {
+                   retArray += col + " ";
+               }
        retArray += "\n";
        }
        return retArray;
