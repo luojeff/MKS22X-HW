@@ -8,12 +8,29 @@ public class KnightBoard {
     }  
 
     public void solve(){
+	//solveH(board.length/2, board[0].length/2, 1);
+	solveH(0,0,1);
     }
 
     public boolean solveH(int row, int col, int level){
 	if(level == board.length * board[0].length){
+	    board[row][col] = level;
 	    return true;
 	} else {
+	    board[row][col] = level;
+
+	    ArrayList<Integer[]> allowedSpaces = getAllowedSpaces(row, col);
+	    insertionSort(allowedSpaces);
+	    
+	    for(int count = 0; count < allowedSpaces.size(); count++){
+		Integer[] coord = allowedSpaces.get(count);
+		
+		if(solveH(coord[0], coord[1], level+1)){
+		    return true;
+		}
+	    }
+	    
+	    board[row][col] = 0;
 	    return false;
 	}
     }
@@ -23,17 +40,37 @@ public class KnightBoard {
 	int[] calcs = {-2, -1, 1, 2};
 	int[] calcs2 = {-2, -1, 1, 2};
 
-
 	for(int i : calcs){
 	    for(int j : calcs2){
-		if(Math.abs(j) != Math.abs(i)){
-		    if(inLimits(i,j)){
-			retBoxes.add(new int[]{i,j});
+		if((Math.abs(j) != Math.abs(i)) && inLimits(currentRow + i, currentCol + j)){
+		    if(board[currentRow + i][currentCol + j] == 0){
+			retBoxes.add(new Integer[]{currentRow + i, currentCol + j});
 		    }
 		}
 	    }
 	}
+
 	return retBoxes;
+    }
+
+    public void insertionSort(ArrayList<Integer[]> squares){
+	for(int i = 1; i < squares.size(); i++){
+	    int indexToSet = 0;
+	    Integer[] prev = squares.get(i);
+	    
+	    for(int j = i-1; j >= 0; j--){
+		if(getAllowedSpaces(squares.get(i)[0],squares.get(i)[1]).size() > getAllowedSpaces(squares.get(j)[0],squares.get(j)[1]).size()){
+		    indexToSet = j+1;
+		    j = -1;
+		}
+	    }
+	    
+	    for(int k = i-1; k >= indexToSet; k--){
+		squares.set(k+1, squares.get(k));
+	    }
+
+	    squares.set(indexToSet, prev);
+	}
     }
 
     public boolean inLimits(int row, int col){
@@ -53,5 +90,26 @@ public class KnightBoard {
 	    retArray += "\n";
 	}
 	return retArray;
+    }
+
+    public static void main(String[] args){
+	
+	for(int i = 8; i < 51; i++){
+	    //if(i != 23 && i != 43 && i != 35 && i != 48 && i != 47)
+	    {
+	    KnightBoard kb = new KnightBoard(i, i);
+	    long stime = System.nanoTime();
+	    kb.solve();
+	    long etime = System.nanoTime();
+
+	    long runTime = etime - stime;
+	    System.out.println(i+"x"+i+ "  Time: "+runTime/1000000.0+" ms");
+
+	   }
+	}
+	
+	//KnightBoard kb = new KnightBoard(23, 23);
+	//kb.solve();
+	//System.out.println(kb);
     }
 }
