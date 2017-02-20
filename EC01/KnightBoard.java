@@ -11,6 +11,10 @@ public class KnightBoard {
 	solveH(0,0,1);
     }
 
+    public void solveFast(){
+	solveH(0,0,1);
+    }
+
     public boolean solveH(int row, int col, int level){
 	if(level == board.length * board[0].length){
 	    board[row][col] = level;
@@ -91,13 +95,23 @@ public class KnightBoard {
 	return retArray;
     }
 
-    /*
     public static void main(String[] args){
-	KnightBoard kb = new KnightBoard(8, 8);
+	
+	for(int i = 8; i < 51; i++){
+	    //(i != 23 && i != 43 && i != 35 && i != 48 && i != 47)
+	    {
+		KnightBoard kb = new KnightBoard(i, i);
+		long stime = System.nanoTime();
+		kb.solveFast();
+		long etime = System.nanoTime();
 
-	kb.solve();
-
-	System.out.println(kb);
+		long runTime = etime - stime;
+		System.out.println(i+"x"+i+ "  Time: "+runTime/1000000.0+" ms");
+	    }
+	}
+	
+	//KnightBoard kb = new KnightBoard(23, 23);
+	//kb.solve();
+	//System.out.println(kb);
     }
-    */
 }
