@@ -2,9 +2,7 @@ import java.util.*;
 import java.io.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.util.Scanner;
 
 public class Maze{
 
@@ -25,19 +23,53 @@ public class Maze{
     */
 
     public Maze(String filename){
-        BufferedReader bf = getBF(filename);
+	try{
+	    Scanner scan = getBF(filename);
+	    int count = 0; // get length 
+	    String line = "";
 
-	while(bf.readLine() != null){
-	    System.out.println(bf.readLine());
-	}
-	
+ 	    while(scan.hasNextLine()){
+		line = scan.nextLine();
+		count++;
+	    } 
+
+	    maze = new char[count][line.length()];
+	    count = 0;
+
+	    while(scan.hasNextLine()){
+		String line = scan.nextLine();
+		for(int i = 0; i < line.length(); i++){
+		    maze[count][i] = line.charAt(i);
+		}
+	    }
+
+
+	    /*
+	    for(int r=0; r<count; r++){
+		for(int c=0; c<line.length(); c++){
+		    maze[r][c] = 
+		}
+	    }
+	    */
+
+	} catch (FileNotFoundException e){}
     }
 
-    public BufferedReader getBF(String filename){
-	try{
-	BufferedReader retBF = new BufferedReader(new FileReader(new File(filename)));
-	} catch (IOException e){
+    public Scanner getBF(String filename) throws FileNotFoundException {
+	File f = new File("data1.dat");
+        Scanner inf = new Scanner(f);
+	
+	return inf;
+    }
 
+    public void printMaze(){
+	for(char[] r : maze){
+	    String line = "";
+	    for(char c : r){
+		line += r[c];
+	    }
+	    line += '\n';
+	    System.out.println(line);
 	}
     }
 
