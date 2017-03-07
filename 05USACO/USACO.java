@@ -5,10 +5,13 @@ public class USACO {
     public int[] options;
     public int[][] lake;
     public int[][] instructions;
-    
 
-    public USACO(String filename){
+    public USACO(){
+    }
+    
+    public int bronze(String filename){
 	options = new int[4];
+	int vol = 0;
 	
 	try{
 	    Scanner sc = new Scanner(new File(filename));
@@ -39,22 +42,59 @@ public class USACO {
 	} catch (FileNotFoundException e){
 	    System.out.println("boohoo");
 	}
+
+	for(int[] instruction : instructions){
+	    stomp(instruction[0], instruction[1], instruction[2]);
+	}
+	
+	/*
+	for(int[] r : lake){
+	    for(int c : r){
+		System.out.print(c + " ");
+	    }
+	    System.out.print("\n");
+	}
+	*/
+
+	for(int r = 0; r < lake.length; r++){
+	    for(int c = 0; c < lake[r].length; c++){
+	        if(lake[r][c] < options[2]){
+		    vol += options[2] - lake[r][c];
+		}
+	    }
+        }
+	
+	return vol * 6 * 12 * 6 * 12;
+    }
+    
+    public void solve(){
 	
     }
 
-    
+    public void stomp(int r, int c, int digAmount){
+	int highest = 10;
+
+	for(int row = r-1; row < r+2; row++){
+	    for(int col = c-1; col < c+2; col++){
+		if(lake[row][col] > highest){
+		    highest = lake[row][col];
+		}
+	    }
+	}
+	for(int row = r-1; row < r+2; row++){
+	    for(int col = c-1; col < c+2; col++){
+		if(lake[row][col] > highest - digAmount){
+		    lake[row][col] = highest - digAmount;
+		}
+	    }
+	}
+	
+    }
 
 
     public static void main(String[] args){
-	USACO a = new USACO("makelake.in");
-	//System.out.println(options);
-	for(int[] b : a.instructions){
-	    for(int i : b){
-		System.out.print(i + " ");
-	    }
-	    System.out.println("\n");
-	}
-    }
-    
-   
+	USACO a = new USACO();
+	a.solve();
+        System.out.println(a.bronze("makelake.in"));
+    } 
 }
