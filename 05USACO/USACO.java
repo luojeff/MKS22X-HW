@@ -66,9 +66,8 @@ public class USACO {
 	
 	return vol * 6 * 12 * 6 * 12;
     }
-    
-    public void solve(){
-	
+
+    public int silver(String filename){
     }
 
     public void stomp(int r, int c, int digAmount){
@@ -81,6 +80,7 @@ public class USACO {
 		}
 	    }
 	}
+
 	for(int row = r-1; row < r+2; row++){
 	    for(int col = c-1; col < c+2; col++){
 		if(lake[row][col] > highest - digAmount){
@@ -91,10 +91,8 @@ public class USACO {
 	
     }
 
-
     public static void main(String[] args){
 	USACO a = new USACO();
-	a.solve();
         System.out.println(a.bronze("makelake.in"));
     } 
 }
