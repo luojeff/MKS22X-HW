@@ -68,6 +68,7 @@ public class USACO {
     }
 
     public int silver(String filename){
+	return -1;
     }
 
     public void stomp(int r, int c, int digAmount){
