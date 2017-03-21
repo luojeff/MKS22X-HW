@@ -1,6 +1,3 @@
-import java.lang.StringBuilder;
-import java.io.*;
-
 public class Quick {
     public static int part(int[] data, int start, int end){
 	
@@ -68,9 +65,51 @@ public class Quick {
       the array is sorted
     */
     public static void quickSort(int[] data){
-	quickSortH(data, 0, data.length-1);
+	// quickSortH(data, 0, data.length-1);
+
+	partQuickSort(data, 0, data.length-1);
     }
-    
+
+    /*
+      Modified partition to quicksort data array directly. Excludes
+      repeating element clumps so this should be more efficient.
+    */
+    public static void partQuickSort(int[] data, int start, int end){	
+
+	if(end <= start+1){
+	} else {
+
+	    int oldStart = start;
+	    int oldEnd = end;
+	    
+	    /* Chooses pivot */
+	    int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
+	    int pivot = data[pivotIndex];
+
+	    /* Goes through "unprocessed" portion of the array */
+	    int curr = start;
+
+	    /* Makes first element equal to pivot */
+	    swap(data, start, pivotIndex);
+	
+	    while(curr <= end){
+		if(data[curr] > pivot){	        
+		    swap(data, curr, end--);	        
+		} else if (data[curr] < pivot){
+		    swap(data, curr++, start++);	        
+		} else {
+		    curr++;
+		}
+	    }
+
+	    partQuickSort(data, oldStart, start);
+	    partQuickSort(data, end, oldEnd);
+	}
+    }
+
+    /*
+      Quick sort helper method, used alongside the regular partition
+    */
     private static void quickSortH(int[] data, int start, int end){
 	int indPart = part(data, start, end);
 
@@ -86,5 +125,12 @@ public class Quick {
 
 
     public static void main(String[] args){
+	int[] a = new int[]{19,3,14,2,29,29,0,0,1,1,2,3,1,2,1,1,1,0,99};
+
+	quickSort(a);
+
+	for(int i=0; i<a.length; i++){
+	    System.out.print(a[i] + " ");
+	}
     }    
 }
