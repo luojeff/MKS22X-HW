@@ -3,7 +3,7 @@ public class Quick {
 	
 	/* Chooses pivot */
 	int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
-	int pivot = data[pivotIndex];
+	int pivot = data[pivotIndex];        
 
 	/* Goes through "unprocessed" portion of the array */
 	int curr = start;
@@ -24,6 +24,46 @@ public class Quick {
         return curr-1;
     }
 
+    /*
+      Same as partition method but implements dutch-flag partition
+      and returns an array containing the indices of lt and gt;
+    */
+    public static int partNew(int[] data, int start, int end){
+	
+	int lt = start;
+	int gt = end;
+	    
+	/* Chooses pivot */
+	int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
+	int pivot = data[pivotIndex];
+
+	/* Goes through "unprocessed" portion of the array */
+	int curr = start;
+
+	/* Makes first element equal to pivot */
+	swap(data, start, pivotIndex);
+	
+	while(curr <= gt){
+	    if(data[curr] > pivot){	        
+		swap(data, curr, gt--);
+	    } else if (data[curr] < pivot){
+		swap(data, curr++, lt++);	        
+	    } else {
+		curr++;
+	    }
+	}
+
+	/*
+	int rand = (int)(Math.random()*9);
+	if(rand % 3 == 0){
+	    return lt;
+	} else if (rand % 3 == 1){
+	    return gt;
+	}
+	*/
+	return curr-1;
+    }
+
     /* 
        Swaps elements of array at indices a and b 
        respectively
@@ -40,22 +80,21 @@ public class Quick {
       the value at that certain pivot point
     */
     public static int quickselect(int[] data, int k){
+	
 	int start = 0;
 	int end = data.length-1;
 
-	/* initial partition */
-	int piv = part(data, start, end);
+	/* initial partition */	
+	int piv = partNew(data, start, end);
 
-        while (piv != k){
+        while (piv != k){	    
 	    if(piv < k){
-		start = piv;
+		System.out.println("New piv: " + piv);
+		piv = partNew(data, piv, end);
 	    } else if (piv > k){
-		end = piv;
+		piv = partNew(data, start, piv);
 	    }
-
-	    piv = part(data, start, end);	    
 	}
-	
 	return data[piv];
     }
 
@@ -66,7 +105,6 @@ public class Quick {
     */
     public static void quickSort(int[] data){
 	// quickSortH(data, 0, data.length-1);
-
 	partQuickSort(data, 0, data.length-1);
     }
 
@@ -79,8 +117,8 @@ public class Quick {
 	if(end <= start+1){
 	} else {
 
-	    int oldStart = start;
-	    int oldEnd = end;
+	    int lt = start;
+	    int gt = end;
 	    
 	    /* Chooses pivot */
 	    int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
@@ -92,28 +130,28 @@ public class Quick {
 	    /* Makes first element equal to pivot */
 	    swap(data, start, pivotIndex);
 	
-	    while(curr <= end){
+	    while(curr <= gt){
 		if(data[curr] > pivot){	        
-		    swap(data, curr, end--);	        
+		    swap(data, curr, gt--);
 		} else if (data[curr] < pivot){
-		    swap(data, curr++, start++);	        
+		    swap(data, curr++, lt++);	        
 		} else {
 		    curr++;
 		}
 	    }
 
-	    partQuickSort(data, oldStart, start);
-	    partQuickSort(data, end, oldEnd);
+	    partQuickSort(data, start, lt);
+	    partQuickSort(data, gt, end);
 	}
     }
 
     /*
       Quick sort helper method, used alongside the regular partition
-    */
+    
     private static void quickSortH(int[] data, int start, int end){
 	int indPart = part(data, start, end);
 
-	/* Recursive call on two subsequent partitions */
+	// Recursive call on two subsequent partitions
 	if(end > indPart){
 	    quickSortH(data, indPart+1, end);	    
 	}
@@ -122,15 +160,22 @@ public class Quick {
 	    quickSortH(data, start, indPart-1);
 	}
     }
-
-
+    */
+    
     public static void main(String[] args){
-	int[] a = new int[]{19,3,14,2,29,29,0,0,1,1,2,3,1,2,1,1,1,0,99};
 
-	quickSort(a);
 
-	for(int i=0; i<a.length; i++){
-	    System.out.print(a[i] + " ");
-	}
-    }    
+	
+	  int[] b = new int[10000];
+	  for(int i=0; i<1000; i++){
+	  b[i] = (int)(Math.random()*10000);
+	  }
+
+	  long startTime = System.nanoTime();
+	  System.out.println(quickselect(b, 1000));
+	  //quickSort(b);
+	  long endTime = System.nanoTime();
+
+	  System.out.println("Time: " + (endTime - startTime)/Math.pow(10,9) + "s");
+    }
 }
