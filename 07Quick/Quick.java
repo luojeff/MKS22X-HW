@@ -1,48 +1,27 @@
 public class Quick {
-    public static int part(int[] data, int start, int end){
-	
-	/* Chooses pivot */
-	int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
-	int pivot = data[pivotIndex];        
-
-	/* Goes through "unprocessed" portion of the array */
-	int curr = start;
-
-	/* Makes first element equal to pivot */
-	swap(data, start, pivotIndex);
-	
-	while(curr <= end){
-	    if(data[curr] > pivot){	        
-		swap(data, curr, end--);	        
-	    } else if (data[curr] < pivot){
-		swap(data, curr++, start++);	        
-	    } else {
-		curr++;
-	    }
-	}
-	
-        return curr-1;
-    }
-
+    
     /*
-      Same as partition method but implements dutch-flag partition
-      and returns an array containing the indices of lt and gt;
+      Partition method that implements the dutch-flag splitting method; 
+      values less than the pivot are on one side, those greater than the
+      pivot are on the other, and those equal are clumped in the middle. 
+      Returns an array containing the indices of lt and gt
     */
-    public static int partNew(int[] data, int start, int end){
+    public static int[] partNew(int[] data, int start, int end){
 	
 	int lt = start;
 	int gt = end;
 	    
-	/* Chooses pivot */
+	// Chooses pivot
 	int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
 	int pivot = data[pivotIndex];
 
-	/* Goes through "unprocessed" portion of the array */
+	// Counter that goes through "unprocessed" portion of the array
 	int curr = start;
 
-	/* Makes first element equal to pivot */
+	// Makes first element equal to pivot
 	swap(data, start, pivotIndex);
-	
+
+	// Swaps accordingly
 	while(curr <= gt){
 	    if(data[curr] > pivot){	        
 		swap(data, curr, gt--);
@@ -53,15 +32,11 @@ public class Quick {
 	    }
 	}
 
-	/*
-	int rand = (int)(Math.random()*9);
-	if(rand % 3 == 0){
-	    return lt;
-	} else if (rand % 3 == 1){
-	    return gt;
-	}
-	*/
-	return curr-1;
+	int[] ret = new int[]{lt, gt};
+
+	return ret;
+
+	// return curr-1;
     }
 
     /* 
@@ -84,18 +59,20 @@ public class Quick {
 	int start = 0;
 	int end = data.length-1;
 
-	/* initial partition */	
-	int piv = partNew(data, start, end);
+	// Initial partition
+	int[] piv = partNew(data, start, end);
 
-        while (piv != k){	    
-	    if(piv < k){
-		System.out.println("New piv: " + piv);
-		piv = partNew(data, piv, end);
-	    } else if (piv > k){
-		piv = partNew(data, start, piv);
+        while (k < piv[0] || k > piv[1]){
+	    if(k < piv[0]){
+		end = piv[0];
+		piv = partNew(data, start, end);
+	    } else {
+		start = piv[1];
+		piv = partNew(data, start, end);
 	    }
 	}
-	return data[piv];
+
+	return data[k];
     }
 
     /*
@@ -104,30 +81,23 @@ public class Quick {
       the array is sorted
     */
     public static void quickSort(int[] data){
-	// quickSortH(data, 0, data.length-1);
-	partQuickSort(data, 0, data.length-1);
+	quickSortH(data, 0, data.length-1);
     }
 
     /*
       Modified partition to quicksort data array directly. Excludes
       repeating element clumps so this should be more efficient.
     */
-    public static void partQuickSort(int[] data, int start, int end){	
+    public static void quickSortH(int[] data, int start, int end){	
 
 	if(end <= start+1){
 	} else {
-
 	    int lt = start;
 	    int gt = end;
-	    
-	    /* Chooses pivot */
 	    int pivotIndex = (int)(Math.random() * (end - start + 1)) + start;
 	    int pivot = data[pivotIndex];
-
-	    /* Goes through "unprocessed" portion of the array */
 	    int curr = start;
-
-	    /* Makes first element equal to pivot */
+	    
 	    swap(data, start, pivotIndex);
 	
 	    while(curr <= gt){
@@ -140,42 +110,28 @@ public class Quick {
 		}
 	    }
 
-	    partQuickSort(data, start, lt);
-	    partQuickSort(data, gt, end);
+	    // Sort is called on both sides of the partitioned array
+	    quickSortH(data, start, lt);
+	    quickSortH(data, gt, end);
 	}
     }
-
-    /*
-      Quick sort helper method, used alongside the regular partition
-    
-    private static void quickSortH(int[] data, int start, int end){
-	int indPart = part(data, start, end);
-
-	// Recursive call on two subsequent partitions
-	if(end > indPart){
-	    quickSortH(data, indPart+1, end);	    
-	}
-
-	if(indPart > start){
-	    quickSortH(data, start, indPart-1);
-	}
-    }
-    */
     
     public static void main(String[] args){
-
-
+	/*
+	int[] b = new int[]{19, 3, 14, 2, 0, 1, 2, 14, 11, 20, 0, 14, 2};
 	
-	  int[] b = new int[10000];
-	  for(int i=0; i<1000; i++){
-	  b[i] = (int)(Math.random()*10000);
-	  }
+	long startTime = System.nanoTime();
 
-	  long startTime = System.nanoTime();
-	  System.out.println(quickselect(b, 1000));
-	  //quickSort(b);
-	  long endTime = System.nanoTime();
+	System.out.println(quickselect(b, 10));
+	quickSort(b);
+	  
+	long endTime = System.nanoTime();
 
-	  System.out.println("Time: " + (endTime - startTime)/Math.pow(10,9) + "s");
+	System.out.println("Time: " + (endTime - startTime)/Math.pow(10,6) + "ms");
+
+	for(int i : b){
+	    System.out.print(i + " ");
+	}
+	*/
     }
 }
