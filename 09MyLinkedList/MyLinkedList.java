@@ -1,39 +1,95 @@
 public class MyLinkedList {
-    LNode start, end;
-    int size;
+    public LNode start, end;
+    public int size;
 
-    public MyLinkedList(){}
-    
-    public MyLinkedList(LNode start){
-        this.start = start;
-	size = 1;
+    public MyLinkedList(){
+	size = 0;
     }
 
     public void add(int value){
 	LNode ln = new LNode(value);
 	add(ln);
     }
+
+    public void add(int index, int value){
+	
+    }
+
+    public int remove(int index){
+	LNode toRemove
+	
+    }
     
     public void add(LNode ln){
-	if(start != null){
-	    ln.setNext(start);
-	    start = ln;	    	    
+	if(size() == 0){
+	    this.start = ln;
+	    this.end = ln;
+	    size++;
 	} else {
-	    start = ln;
+	    end.setNext(ln);
+	    end = ln;
+	    size++;
 	}
-	size++;
     }
 
     public String toString(){
-	String ret = "";
+	String ret = "[";
 	LNode current = start;
 
-	while(current != null){
-	    ret += current.value + " ";
-	    current = current.next;
+        for(int i=0; i<size(); i++){
+	    if(i < size()-1){
+		ret += current.value + ",";
+		current = current.next;
+	    } else {
+		ret += current.value;
+		current = current.next;
+	    }
 	}
+
+	ret += "]";
 	
-	return retString;
+	return ret;
+    }
+
+    public int size(){
+	return size;
+    }
+
+    public int get(int index){
+	return getNode(index).value;
+    }
+
+    public LNode getNode(int index){
+	LNode current = start;
+	while(index > 0){
+	    current = current.next;
+	    index--;
+	}	
+	return current;
+    }
+
+    public int set(int index, int newValue){
+	LNode currNode = getNode(index);
+	int oldValue = currNode.value;
+
+	currNode.setValue(newValue);
+
+	return oldValue;
+    }
+
+    public int indexOf(int value){     
+	int ind = 0;
+	int size = size();
+
+	while(get(ind) != value){
+	    ind++;
+
+	    if(ind == size){
+		return -1;
+	    }
+	}
+
+	return ind;
     }
 
     public static void main(String[] args) {
@@ -44,6 +100,11 @@ public class MyLinkedList {
 	linked.add(7);
 
 	System.out.println(linked);
+	System.out.println(linked.set(2,11));
+	System.out.println(linked.get(2));
+
+	System.out.println(linked);
+	System.out.println(linked.indexOf(11));
     }
 
     /*
