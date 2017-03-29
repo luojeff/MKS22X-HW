@@ -24,6 +24,10 @@ class MyLinkedList {
     }
 
     public void add(int index, int value){
+	if(index < 0 || index > size()){
+	    throw new IndexOutOfBoundsException();
+	}
+	
 	LNode newNode = new LNode(value);
 	
 	if(index < size()-1 && index > 0){
@@ -46,6 +50,10 @@ class MyLinkedList {
     }
 
     public int remove(int index){
+	if(index < 0 || index >= size()){
+	    throw new IndexOutOfBoundsException();
+	}
+	
 	LNode curr = getNode(index);
 	LNode bef;
 	LNode aft;
@@ -98,6 +106,10 @@ class MyLinkedList {
     }
 
     public int get(int index){
+	if(index < 0 || index > size()-1){
+	    throw new IndexOutOfBoundsException();
+	}
+	
 	return getNode(index).value;
     }
 
@@ -106,11 +118,17 @@ class MyLinkedList {
 	while(index > 0){
 	    current = current.next;
 	    index--;
-	}	
+	}
 	return current;
     }
 
     public int set(int index, int newValue){
+	if(index < 0 || index >= size()){
+	    System.out.println("Error!");
+
+	    throw new IndexOutOfBoundsException();
+	}
+	
 	LNode currNode = getNode(index);
 	int oldValue = currNode.value;
 
@@ -135,6 +153,10 @@ class MyLinkedList {
 
     public static void main(String[] args) {
 	MyLinkedList linked = new MyLinkedList();
+
+	System.out.println(linked);
+	// []
+
 	
 	linked.add(3);
 	linked.add(5);
@@ -151,10 +173,15 @@ class MyLinkedList {
 	linked.add(4,5);
 	linked.add(5,7);
 	linked.remove(0);
-	linked.remove(4);
+	System.out.println(linked.remove(4)); // 7
 	// [9, 11, 2, 5]
 
 	System.out.println(linked);
+	System.out.println("Element at 3: " + linked.get(3)); // 5
+	System.out.println("Index of 11: " + linked.indexOf(11)); // 1
+
+	System.out.println("Size: " + linked.size()); // 4
+
     }
 
     /*
