@@ -1,4 +1,4 @@
-class MyLinkedList {
+public class MyLinkedList {
     public LNode start, end;
     public int size;
 
@@ -18,7 +18,7 @@ class MyLinkedList {
 	    size++;
 	} else {
 	    end.setNext(ln);
-	    end = ln;
+	    this.end = ln;
 	    size++;
 	}
     }
@@ -30,7 +30,7 @@ class MyLinkedList {
 	
 	LNode newNode = new LNode(value);
 	
-	if(index < size()-1 && index > 0){
+	if(index < size() && index > 0){
 	    LNode curr = getNode(index);
 	    LNode bef = getNode(index-1);
 	    
@@ -39,11 +39,11 @@ class MyLinkedList {
 	} else if (index == size()){
 	    LNode bef = getNode(index-1);
 	    bef.setNext(newNode);
-	    newNode = end;
-	} else {
-	    LNode aft = getNode(index+1);
+	    end = newNode;
+	} else if (index == 0){
+	    LNode aft = getNode(index);
 	    newNode.setNext(aft);
-	    newNode = start;
+	    start = newNode;
 	}
 
 	size++;
@@ -86,13 +86,15 @@ class MyLinkedList {
 	String ret = "[";
 	LNode current = start;
 
+	System.out.println(size);
+
         for(int i=0; i<size(); i++){
 	    if(i < size()-1){
 		ret += current.value + ",";
 		current = current.next;
+		
 	    } else {
 		ret += current.value;
-		current = current.next;
 	    }
 	}
 
@@ -116,8 +118,12 @@ class MyLinkedList {
     public LNode getNode(int index){
 	LNode current = start;
 	while(index > 0){
-	    current = current.next;
-	    index--;
+	    if(index < size()){
+		current = current.next;
+		index--;
+	    } else {
+		
+	    }
 	}
 	return current;
     }
@@ -159,24 +165,36 @@ class MyLinkedList {
 	
 	linked.add(3);
 	linked.add(5);
-	linked.add(7);
-
-	/*
+	linked.add(7);	
 	linked.add(0, 10);
 	linked.add(3, 15);
-	*/
-	// [10, 3, 5, 7, 15]
 	
-	System.out.println("First set: " + linked);
-
+	System.out.println("First set: " + linked); // [10, 3, 5, 15, 7]
+	
 	linked.set(2, 20);
-        linked.set(0, 1);
-	linked.set(4, 11);
+        linked.set(0, 1);	
 
-	System.out.println("Second set: " + linked);
-	// [10, 3, 5, 7, 15]
+	System.out.println("Second set: " + linked); // [1, 3, 20, 15, 7]
 
-	System.out.println("Size: " + linked.size()); // 4
+	linked.remove(1);
+	linked.remove(3);
+
+	System.out.println("Third set: " + linked); // [1, 20, 15]
+
+	System.out.println("Size: " + linked.size());
+
+	System.out.println("Should be 1: " +  linked.get(0));
+	System.out.println("Should be 15: " +  linked.get(2));
+	try{
+	    System.out.println("Should be an error: " +  linked.get(3));
+	} catch (IndexOutOfBoundsException e){
+	    System.out.println("Index out of bounds error!");
+	}
+
+	linked.set(2, 100); // edge case
+
+	System.out.println("Should be 2: " + linked.indexOf(100));
+	System.out.println("Should be -1: " + linked.indexOf(-123));	
     }
 
     /*
