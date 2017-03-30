@@ -137,7 +137,7 @@ class MyLinkedList {
 	return oldValue;
     }
 
-    public int indexOf(int value){     
+    public int indexOf(int value){
 	int ind = 0;
 	int size = size();
 
@@ -154,34 +154,29 @@ class MyLinkedList {
     public static void main(String[] args) {
 	MyLinkedList linked = new MyLinkedList();
 
-	System.out.println(linked);
+	System.out.println("Empty: " + linked);
 	// []
-
 	
 	linked.add(3);
 	linked.add(5);
 	linked.add(7);
-	// [3, 5, 7]
-	
-	System.out.println(linked);
-	
-        linked.set(2, 11);
-	linked.set(1, 9);
-	// [3, 9, 11]
 
-        linked.add(2);
-	linked.add(4,5);
-	linked.add(5,7);
-	linked.remove(0);
-	System.out.println(linked.remove(4)); // 7
-	// [9, 11, 2, 5]
+	/*
+	linked.add(0, 10);
+	linked.add(3, 15);
+	*/
+	// [10, 3, 5, 7, 15]
+	
+	System.out.println("First set: " + linked);
 
-	System.out.println(linked);
-	System.out.println("Element at 3: " + linked.get(3)); // 5
-	System.out.println("Index of 11: " + linked.indexOf(11)); // 1
+	linked.set(2, 20);
+        linked.set(0, 1);
+	linked.set(4, 11);
+
+	System.out.println("Second set: " + linked);
+	// [10, 3, 5, 7, 15]
 
 	System.out.println("Size: " + linked.size()); // 4
-
     }
 
     /*
