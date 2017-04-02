@@ -156,6 +156,7 @@ public class MyLinkedList {
     }
 
     public static void main(String[] args) {
+	/* TEST CASES
 	MyLinkedList linked = new MyLinkedList();
 
 	System.out.println("Empty: " + linked);
@@ -193,6 +194,7 @@ public class MyLinkedList {
 
 	System.out.println("Should be 2: " + linked.indexOf(100));
 	System.out.println("Should be -1: " + linked.indexOf(-123));
+	*/
     }
 
     /*
