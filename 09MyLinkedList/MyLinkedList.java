@@ -86,8 +86,6 @@ public class MyLinkedList {
 	String ret = "[";
 	LNode current = start;
 
-	System.out.println(size);
-
         for(int i=0; i<size(); i++){
 	    if(i < size()-1){
 		ret += current.value + ",";
@@ -194,7 +192,7 @@ public class MyLinkedList {
 	linked.set(2, 100); // edge case
 
 	System.out.println("Should be 2: " + linked.indexOf(100));
-	System.out.println("Should be -1: " + linked.indexOf(-123));	
+	System.out.println("Should be -1: " + linked.indexOf(-123));
     }
 
     /*
