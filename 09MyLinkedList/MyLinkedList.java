@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MyLinkedList {
+public class MyLinkedList implements Iterable<Integer> {
     public LNode start, end;    
     public int size;
 
@@ -40,7 +40,7 @@ public class MyLinkedList {
 	    newNode.setNext(curr);
 	    newNode.setPrevious(bef);
 	    bef.setNext(newNode);
-	} else if (index == size){
+	} else if (index == size && size != 0){
 	    LNode bef = getNode(index-1);
 	    bef.setNext(newNode);
 	    newNode.setPrevious(bef);
@@ -114,6 +114,8 @@ public class MyLinkedList {
     }
 
     public LNode getNode(int index){
+	System.out.println("Index: " + index);
+
 	if(index < 0 || index > size-1){
 	    throw new IndexOutOfBoundsException();
 	}
@@ -156,6 +158,10 @@ public class MyLinkedList {
 	}
 
 	return ind;
+    }
+
+    public Iterator<Integer> iterator(){
+	return new MyLinkedListIterator(this);
     }
 
     /*
@@ -212,7 +218,8 @@ public class MyLinkedList {
 	linked.add(10);
 	linked.add(5);
 	linked.add(7);
-	System.out.println("List: " + linked + linked.size);
+	linked.remove(0);        
+	System.out.println("List: " + linked);
     }
 
     /*
@@ -242,5 +249,29 @@ public class MyLinkedList {
 	public void setPrevious(LNode previous){
 	    this.prev = prev;
 	}
+    }
+
+    public class MyLinkedListIterator implements Iterator<Integer> {
+	MyLinkedList myLinkedList;
+	LNode current;
+
+	public MyLinkedListIterator(MyLinkedList myLinkedList){
+	    this.myLinkedList = myLinkedList;
+	    current = myLinkedList.start;
+	}
+
+	public boolean hasNext(){
+	    return current != myLinkedList.end;
+	}
+
+	public Integer next(){
+	    if(hasNext()){
+		return current.value;
+	    } else {
+		throw new NoSuchElementException();
+	    }
+	}	
+
+	public void remove(){};
     }
 }
