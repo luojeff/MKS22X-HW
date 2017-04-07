@@ -30,26 +30,34 @@ public class MyLinkedList implements Iterable<Integer> {
     public void add(int index, int value){
 	if(index < 0 || index > size){
 	    throw new IndexOutOfBoundsException();
-	}
+	}	
 	
-	LNode newNode = new LNode(value);
-	
-	if(index < size && index > 0){
+	LNode newNode = new LNode(value);	
+
+	// general case
+	// beginning
+	// end
+	// beginning |= end |= size	
+
+	if(size == 0){
+	    start = newNode;
+	    end = newNode;
+	} else if(index == size){
+	    LNode bef = getNode(index-1);
+	    bef.setNext(newNode);
+	    newNode.setPrevious(bef);
+	    end = newNode;
+	} else if(index == 0){
+	    LNode aft = getNode(index);
+	    aft.setPrevious(newNode);
+	    newNode.setNext(aft);
+	    start = newNode;
+	} else {
 	    LNode curr = getNode(index);
 	    LNode bef = getNode(index-1);	    
 	    newNode.setNext(curr);
 	    newNode.setPrevious(bef);
 	    bef.setNext(newNode);
-	} else if (index == size && size != 0){
-	    LNode bef = getNode(index-1);
-	    bef.setNext(newNode);
-	    newNode.setPrevious(bef);
-	    end = newNode;
-	} else if (index == 0){
-	    LNode aft = getNode(index);
-	    aft.setPrevious(newNode);
-	    newNode.setNext(aft);
-	    start = newNode;
 	}
 
 	size++;
@@ -163,12 +171,23 @@ public class MyLinkedList implements Iterable<Integer> {
     public Iterator<Integer> iterator(){
 	return new MyLinkedListIterator(this);
     }
+    
+    private void addAfter(LNode location, LNode toBeAdded){
+	
+	if(location != end){
+	    LNode aft = location.next;
+	    toBeAdded.setNext(aft); // only if toBeAdded is not to be last element
+	}
 
-    /*
-      private void addAfter(LNode location, LNode toBeAdded){
-      if(location 
-      }
-    */
+	if(location != start){
+	    LNode bef = location.prev; // only if location is not first
+	    location.setPrev(bef);
+	}
+	
+	location.setNext(toBeAdded);
+	
+	toBeAdded.setPrev(location);	
+    }	
 
     public static void main(String[] args) {
 	
@@ -218,7 +237,7 @@ public class MyLinkedList implements Iterable<Integer> {
 	linked.add(10);
 	linked.add(5);
 	linked.add(7);
-	linked.remove(0);        
+	linked.addAfter(linked.getNode(1), new LNode(2));
 	System.out.println("List: " + linked);
     }
 
