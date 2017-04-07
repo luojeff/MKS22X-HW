@@ -12,21 +12,6 @@ public class MyLinkedList implements Iterable<Integer> {
 	add(size, value);
     }
 
-    /*
-    public void add(LNode ln){
-	if(size() == 0){
-	    start = ln;
-	    end = ln;
-	    size++;
-	} else {
-	    end.setNext(ln);
-	    ln.setPrevious(end);
-	    end = ln;
-	    size++;
-	}
-    }
-    */
-
     public void add(int index, int value){
 	if(index < 0 || index > size){
 	    throw new IndexOutOfBoundsException();
@@ -122,9 +107,7 @@ public class MyLinkedList implements Iterable<Integer> {
     }
 
     public LNode getNode(int index){
-	System.out.println("Index: " + index);
-
-	if(index < 0 || index > size-1){
+        if(index < 0 || index > size-1){
 	    throw new IndexOutOfBoundsException();
 	}
 
@@ -172,8 +155,7 @@ public class MyLinkedList implements Iterable<Integer> {
 	return new MyLinkedListIterator(this);
     }
     
-    private void addAfter(LNode location, LNode toBeAdded){
-	
+    private void addAfter(LNode location, LNode toBeAdded){	
 	if(location != end){
 	    LNode aft = location.next;
 	    toBeAdded.setNext(aft); // only if toBeAdded is not to be last element
@@ -181,64 +163,59 @@ public class MyLinkedList implements Iterable<Integer> {
 
 	if(location != start){
 	    LNode bef = location.prev; // only if location is not first
-	    location.setPrev(bef);
+	    location.setPrevious(bef);
 	}
 	
-	location.setNext(toBeAdded);
-	
-	toBeAdded.setPrev(location);	
+	location.setNext(toBeAdded);	
+	toBeAdded.setPrevious(location);	
     }	
 
     public static void main(String[] args) {
+       
 	
-	/*
-	  MyLinkedList linked = new MyLinkedList();
-
-	  System.out.println("Empty: " + linked);
-	  // []
-	
-	  linked.add(3);
-	  linked.add(5);
-	  linked.add(7);	
-	  linked.add(0, 10);
-	  linked.add(3, 15);
-	
-	  System.out.println("First set: " + linked); // [10, 3, 5, 15, 7]
-	
-	  linked.set(2, 20);
-	  linked.set(0, 1);	
-
-	  System.out.println("Second set: " + linked); // [1, 3, 20, 15, 7]
-
-	  linked.remove(1);
-	  linked.remove(3);
-
-	  System.out.println("Third set: " + linked); // [1, 20, 15]
-
-	  System.out.println("Size: " + linked.size());
-
-	  System.out.println("Should be 1: " +  linked.get(0));
-	  System.out.println("Should be 15: " +  linked.get(2));
-
-	  try{
-	  System.out.println("Should be an error: " +  linked.get(3));
-	  } catch (IndexOutOfBoundsException e){
-	  System.out.println("Index out of bounds error!");
-	  }
-
-	  linked.set(2, 100); // edge case
-
-	  System.out.println("Should be 2: " + linked.indexOf(100));
-	  System.out.println("Should be -1: " + linked.indexOf(-123));
-	
-	*/
-
 	MyLinkedList linked = new MyLinkedList();
-	linked.add(10);
+
+	System.out.println("Empty: " + linked);
+	// []
+	
+	linked.add(3);
 	linked.add(5);
-	linked.add(7);
-	linked.addAfter(linked.getNode(1), new LNode(2));
-	System.out.println("List: " + linked);
+	linked.add(7);	
+	linked.add(0, 10);
+	linked.add(3, 15);
+	
+	System.out.println("First set: " + linked); // [10, 3, 5, 15, 7]
+	
+	linked.set(2, 20);
+	linked.set(0, 1);	
+
+	System.out.println("Second set: " + linked); // [1, 3, 20, 15, 7]
+
+	linked.remove(1);
+	linked.remove(3);
+
+	System.out.println("Third set: " + linked); // [1, 20, 15]
+
+	System.out.println("Size: " + linked.size());
+
+	System.out.println("Should be 1: " +  linked.get(0));
+	System.out.println("Should be 15: " +  linked.get(2));
+
+	try{
+	    System.out.println("Should be an error: " +  linked.get(3));
+	} catch (IndexOutOfBoundsException e){
+	    System.out.println("Index out of bounds error!");
+	}
+
+	linked.set(2, 100); // edge case
+
+	System.out.println("Should be 2: " + linked.indexOf(100));
+	System.out.println("Should be -1: " + linked.indexOf(-123));
+       
+
+	for(Integer i : linked){
+	    System.out.println(i);
+	}
     }
 
     /*
@@ -285,7 +262,9 @@ public class MyLinkedList implements Iterable<Integer> {
 
 	public Integer next(){
 	    if(hasNext()){
-		return current.value;
+		int value = current.value;
+	        current = current.next;
+		return value;
 	    } else {
 		throw new NoSuchElementException();
 	    }
