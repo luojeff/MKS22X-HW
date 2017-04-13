@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MyDeque {
     private String[] data;
     private int size; // size of array (including nulls)
@@ -46,6 +48,10 @@ public class MyDeque {
     // auto-resize on add (if space is needed) !!!
 
     public void addFirst(String element){
+	if(element == null){
+	    throw new NullPointerException();
+	}
+	
         if(numElements != size){
 	    if(front == 0){
 		front = size-1;
@@ -64,6 +70,10 @@ public class MyDeque {
     }
     
     public void addLast(String element){
+	if(element == null){
+	    throw new NullPointerException();
+	}
+	
 	if(numElements != size && numElements != 0){
 	    back = (back+1) % size;
 	    data[back] = element;
@@ -79,6 +89,10 @@ public class MyDeque {
     }
     
     public String removeFirst(){
+	if(numElements == 0){
+	    throw new NoSuchElementException();
+	}
+	
 	String element = data[front];
 
 	front = (front+1) % size;
@@ -88,6 +102,10 @@ public class MyDeque {
     }
     
     public String removeLast(){
+	if(numElements == 0){
+	    throw new NoSuchElementException();
+	}
+	
 	String element = data[back];
 
 	if(back == 0){
@@ -101,10 +119,18 @@ public class MyDeque {
     }
     
     public String getFirst(){
+	if(numElements == 0){
+	    throw new NoSuchElementException();
+	}
+	
 	return data[front];
     }
     
     public String getLast(){
+	if(numElements == 0){
+	    throw new NoSuchElementException();
+	}
+	
 	return data[back];
     }
 
@@ -124,18 +150,6 @@ public class MyDeque {
 	    curr = (curr+1) % size;
 	    throughElements++;
 	}
-	
-
-	/*
-	for(int i=0; i<size; i++){
-	    if(i != size-1){
-		ret += data[i] + ",";
-	    } else {
-		ret += data[i];
-	    }
-	}
-	*/
-
 	return ret + "]";
     }
 
@@ -143,6 +157,19 @@ public class MyDeque {
 	MyDeque test = new MyDeque();
 
 	/* LENGTHY TESTS */
+
+	try{
+	    test.getFirst();
+	} catch (NoSuchElementException e){
+	    System.out.println("NSEE1 Caught!");
+	}
+
+	try{
+	    test.removeFirst();
+	} catch (NoSuchElementException e){
+	    System.out.println("NSEE2 Caught!");
+	}
+
 	
 	test.addLast("Hi");
 
