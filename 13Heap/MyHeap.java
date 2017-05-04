@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MyHeap {
     private String[] arr;
     private int size;
@@ -8,19 +10,27 @@ public class MyHeap {
     public MyHeap(){
 	arr = new String[4];
 	size = arr.length;
-	curr = 0;
+	curr = 1;
     }
 
     public MyHeap(boolean min){
 	this();
-	if(min){
+	if(min == false){
 	    multiplier = -1;
 	}
     }
 
     public void add(String s){
 	if(++curr < size){
+	    int last = curr;
 	    arr[curr] = s;
+
+	    while(arr[curr/2] != null && s.compareTo(arr[curr/2]) > 0){
+		pushUp(curr);
+		curr /= 2;
+	    }
+
+	    curr = last;
 	} else {	
 	    resize();
 	    arr[curr] = s;
@@ -28,6 +38,10 @@ public class MyHeap {
     }
 
     public String remove(){
+	if(curr == 1){
+	    throw new NoSuchElementException();
+	}
+
 	String ret = arr[curr];
 	arr[curr--] = null;
 	
@@ -49,16 +63,32 @@ public class MyHeap {
 	arr = newArr;
     }    
 
-    private void pushUp(){}
-    private void pushDown(){}
+    private void pushUp(int index){
+	String toBePushedDown = arr[index/2];
+	String toBePushedUp = arr[index];
+	arr[index] = toBePushedDown;
+	arr[index/2] = toBePushedUp;	
+    }
+
+    private void pushDown(int index){
+	String toBePushedDown = arr[index];
+	String toBePushedUp = arr[index/2];
+	arr[index/2] = toBePushedUp;
+	arr[index] = toBePushedDown;
+    }
 
     public static void main(String[] args){
 	MyHeap h = new MyHeap();
-	h.add("hello");
-	h.add("world!");
-
-	System.out.println(h.peek());
+	h.add("d");
+	h.add("a");
+	h.add("c");
+	h.add("e");
+	h.add("b");
+	
 	System.out.println(h.remove());
-	System.out.println(h.peek());
+        System.out.println(h.remove());
+	System.out.println(h.remove());
+	System.out.println(h.remove());
+	System.out.println(h.remove());
     }
 }
