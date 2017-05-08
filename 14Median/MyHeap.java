@@ -1,16 +1,16 @@
 import java.util.*;
 
-public class MyIntHeap {
+public class MyHeap {
     private Integer[] arr;
     private int curr;
     private int mult = 1;
 
-    public MyIntHeap(){
+    public MyHeap(){
 	arr = new Integer[4];	
 	curr = 0;
     }
 
-    public MyIntHeap(boolean min){
+    public MyHeap(boolean min){
 	this();
 	if(!min){
 	    mult = -1;
@@ -25,7 +25,7 @@ public class MyIntHeap {
 	int lastElement = curr;
 	arr[curr] = i;	    
 
-	while(arr[curr/2] != null && mult*i>arr[curr/2]){
+	while(arr[curr/2] != null && mult*i.compareTo(arr[curr/2]) > 0){
 	    pushUp(curr);
 	    curr /= 2;
 	}
@@ -43,7 +43,7 @@ public class MyIntHeap {
 	
 	arr[curr--] = null;
 	arr[1] = replace; //replace top element with last
-	pushDown(1);
+	pushDown(1);	
 	
 	return removed;
     }
@@ -55,19 +55,19 @@ public class MyIntHeap {
 	    return -1;
 	}
 
-	Integer parent = arr[parentIndex];	
+	Integer parent = arr[parentIndex];
 	Integer firstChild = arr[parentIndex*2];
-        Integer secondChild = arr[parentIndex*2+1];
+	Integer secondChild = arr[parentIndex*2+1];
 
 	if(secondChild != null){
-	    if(mult*firstChild.intValue()>=secondChild.intValue() && mult*firstChild.intValue()>parent.intValue()){
+	    if(mult * firstChild.compareTo(secondChild) >= 0 && mult * firstChild.compareTo(parent) > 0){
 		return parentIndex*2;
-	    } else if (mult*secondChild.intValue()>firstChild.intValue() && mult*secondChild.intValue()>parent.intValue()){
+	    } else if (mult * secondChild.compareTo(firstChild) > 0 && mult * secondChild.compareTo(parent) > 0){
 		return parentIndex*2+1;
 	    }
 	    return -1;
 	} else if (firstChild != null){
-	    if(mult*firstChild.intValue()>parent.intValue()){
+	    if(mult*firstChild.compareTo(parent) > 0){
 		return parentIndex*2;
 	    }
 	    return -1;
@@ -128,13 +128,12 @@ public class MyIntHeap {
     }
 
     public static void main(String[] args){
-	MyIntHeap h = new MyIntHeap(false);
+	MyHeap h = new MyHeap(false);
 	
-	h.add(3);
+	h.add(5);
 	h.add(10);
-	h.add(1);
-	h.add(13);
 	h.add(0);
+	h.add(-1);	
 
 	System.out.println(h);	
 
