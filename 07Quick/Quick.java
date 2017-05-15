@@ -80,7 +80,7 @@ public class Quick {
       until each element is separated by a partition; by this point
       the array is sorted
     */
-    public static void quickSort(int[] data){
+    public static void quicksort(int[] data){
 	quickSortH(data, 0, data.length-1);
     }
 
