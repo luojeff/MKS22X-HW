@@ -6,8 +6,16 @@ public class MazeSolver {
     }
 
     public void solve(){
+	
     }
 
     public void solve(int i){
+    }
+
+    public static void main(String[] args){
+	MazeSolver ms = new MazeSolver("maze");
+	System.out.println(ms);
+
+	ms.solve();
     }
 }
