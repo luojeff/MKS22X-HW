@@ -1,5 +1,7 @@
+import java.util.*;
+
 public class FrontierPriorityQueue {
-    MyHeap myHeap;
+    private MyHeap myHeap;
 
     public FrontierPriorityQueue(){
 	myHeap = new MyHeap(true);
@@ -12,9 +14,8 @@ public class FrontierPriorityQueue {
     public Location next(){
 	try {
 	    return myHeap.remove();
-	} else {
+	} catch (NoSuchElementException e){
 	    return null;
 	}
     }
-
 }
