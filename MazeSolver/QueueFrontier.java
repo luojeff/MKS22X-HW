@@ -11,7 +11,15 @@ public class QueueFrontier implements Frontier {
 	linked.add(loc);
     }
 
+    public int size(){
+	return linked.size();
+    }
+
     public Location next(){
 	return linked.poll();
+    }
+
+    public boolean hasNext(){
+	return linked.size() > 0;
     }
 }

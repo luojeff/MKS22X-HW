@@ -121,7 +121,12 @@ public class Maze {
     }
 
     public boolean inBounds(Location loc){
-	return loc.getRow() > 1 && loc.getRow() < maxRows-1 && loc.getCol() > 1 && loc.getCol() < maxCols-1;
+	return loc.getRow() >= 1 && loc.getRow() < maxRows-1 && loc.getCol() >= 1 && loc.getCol() < maxCols-1;
+    }
+
+    // if square isn't a wall
+    public boolean isValid(Location loc){
+	return maze[loc.getRow()][loc.getCol()] != '#';
     }
     
     public static String colorize(String s){

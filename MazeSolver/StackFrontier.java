@@ -14,4 +14,8 @@ public class StackFrontier implements Frontier {
     public Location next(){
 	return linked.remove();
     }
+
+    public boolean hasNext(){
+	return linked.size() > 0;
+    }
 }

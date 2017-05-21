@@ -22,4 +22,8 @@ public class FrontierPriorityQueue implements Frontier {
     public int getSize(){
 	return myHeap.getSize();
     }
+
+    public boolean hasNext(){
+	return myHeap.getSize() > 0;
+    }
 }

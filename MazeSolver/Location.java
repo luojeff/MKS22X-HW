@@ -1,4 +1,4 @@
-public class Location implements Comparable<Location>{
+public class Location {
     private int row, col;
     private int distToStart, distToGoal;
 
