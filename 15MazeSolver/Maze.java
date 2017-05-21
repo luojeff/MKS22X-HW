@@ -94,6 +94,7 @@ public class Maze {
 	}
 	return HIDE_CURSOR+CLEAR_SCREEN+go(1,1)+colorize(toString())+SHOW_CURSOR;
     }
+    
     public String toString(){
 	int maxr = maze.length;
 	int maxc = maze[0].length;

@@ -21,54 +21,62 @@ public class MazeSolver {
     }
 
     public void solve(int style){
-
-	// MORE OPTIMAL???
-
 	if(style == 0){
 	    frontier = new StackFrontier();
 	} else if (style == 1){
 	    frontier = new QueueFrontier();	    
 	} else if (style == 2){
-	    frontier = new FrontierPriorityQueue();
+	    frontier = new FrontierPriorityQueue(false); // Best-first
 	} else if (style == 3){
-	    frontier = new FrontierPriorityQueue();
+	    frontier = new FrontierPriorityQueue(true); // A*
+	}
+
+	if(style == 3){	    
+	    maze.getStart().setAStar(true);
+	    maze.getEnd().setAStar(true);
 	}
 	
-	frontier.add(maze.getStart());
+	frontier.add(maze.getStart());	
 	boolean foundSolution = false;
 
 	// PROCESSING FRONTIER HERE
-
-	/* instructions
-	   while not done and not empty:
-	   get next node
-	   process that node
-	*/
 	while(frontier.hasNext() && !foundSolution){
 	    Location removedLoc = frontier.next();
-	    maze.set(removedLoc.getRow(),removedLoc.getCol(),'@');
+	    maze.set(removedLoc.getRow(),removedLoc.getCol(),'.');
 	    removed.add(removedLoc);
 	    
 	    // Updates frontier with new neighbors
 	    for(Location loc : getNeighbors(removedLoc)){
+		
 		if(loc.getRow() == maze.getEnd().getRow() && loc.getCol() == maze.getEnd().getCol()){
-		    foundSolution = true;
+		    maze.getEnd().setPrevious(removedLoc);
+		    foundSolution = true;		    
 		}
-		if(notInData(loc, style) && notInRemoved(loc)){		    
+		if(notInData(loc, style) && notInRemoved(loc)){
+		    if(style == 3){
+			loc.setAStar(true);
+		    }
 		    frontier.add(loc);
+		    loc.setPrevious(removedLoc);
 		    maze.set(loc.getRow(),loc.getCol(),'?');
 		}
 	    }
 
-	    System.out.println(maze.toString(30));
+	    if(animate){
+		System.out.println(maze.toString(10));
+	    }
 	}
 
+	maze.set(maze.getStart().getRow(),maze.getStart().getCol(),'S');
+	maze.set(maze.getStart().getRow(),maze.getEnd().getCol(),'E');
 
-	// REMOVE AFTER FINISHED!!!
+	// ADDS SOLUTION TO PLAIN MAZE
 	if(foundSolution){
-	    System.out.println("Found solution!");
-	} else {
-	    System.out.println("No solution found!");
+	    Location curr = maze.getEnd().prev;
+	    while(curr != null){
+		maze.set(curr.getRow(),curr.getCol(),'@');
+		curr = curr.prev;
+	    }
 	}
     }
 
@@ -78,10 +86,10 @@ public class MazeSolver {
 	int col = curr.getCol();
 
 	Location[] possibles = {
-	    new Location(row+1,col,null,Location.getDist(row+1,col,maze.getStart()),Location.getDist(row+1,col,maze.getEnd()),false),
-	    new Location(row-1,col,null,Location.getDist(row-1,col,maze.getStart()),Location.getDist(row-1,col,maze.getEnd()),false),
-	    new Location(row,col+1,null,Location.getDist(row,col+1,maze.getStart()),Location.getDist(row,col+1,maze.getEnd()),false),
-	    new Location(row,col-1,null,Location.getDist(row,col-1,maze.getStart()),Location.getDist(row,col-1,maze.getEnd()),false)
+	    new Location(row+1,col,curr,Location.getDist(row+1,col,maze.getStart()),Location.getDist(row+1,col,maze.getEnd()),false),
+	    new Location(row-1,col,curr,Location.getDist(row-1,col,maze.getStart()),Location.getDist(row-1,col,maze.getEnd()),false),
+	    new Location(row,col+1,curr,Location.getDist(row,col+1,maze.getStart()),Location.getDist(row,col+1,maze.getEnd()),false),
+	    new Location(row,col-1,curr,Location.getDist(row,col-1,maze.getStart()),Location.getDist(row,col-1,maze.getEnd()),false)
 	};
 
 	for(Location possible : possibles){
@@ -94,9 +102,6 @@ public class MazeSolver {
     }
 
     private boolean notInData(Location toAdd, int style){
-	// MAKE THIS SO IT'S NOT ONLY FOR QUEUEFRONTIERS!!!
-
-
 	if(style == 0){
 	    for(Location loc : ((StackFrontier) frontier).data){
 		if(loc.getRow() == toAdd.getRow() && loc.getCol() == toAdd.getCol()){
@@ -111,7 +116,8 @@ public class MazeSolver {
 	    }	
 	} else if (style == 2 || style == 3){
 	    for(Location loc : ((FrontierPriorityQueue) frontier).data){
-		if(loc.getRow() == toAdd.getRow() && loc.getCol() == toAdd.getCol()){		          return false;
+		if(loc.getRow() == toAdd.getRow() && loc.getCol() == toAdd.getCol()){
+		    return false;
 		}
 	    }	
 	}
@@ -128,8 +134,10 @@ public class MazeSolver {
     }
 
     public static void main(String[] args){
-	MazeSolver ms = new MazeSolver("data4.txt");
+	/*
+	MazeSolver ms = new MazeSolver("data5.txt", true);
 	ms.solve(2);
-	//System.out.println(ms.maze);
+	System.out.println(ms.maze.toString());
+	*/
     }
 }
