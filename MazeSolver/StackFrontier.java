@@ -16,7 +16,7 @@ public class StackFrontier implements Frontier {
     }
 
     public Location next(){
-	return data.pop();
+	return data.removeLast();
     }
 
     public boolean hasNext(){

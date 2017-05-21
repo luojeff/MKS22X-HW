@@ -2,13 +2,22 @@
 
 public class FrontierPriorityQueue implements Frontier {
     public MyHeap data;
+    private boolean aStar;
 
     public FrontierPriorityQueue(){
-	data = new MyHeap(true);
+	this(true);
+    }
+
+    public FrontierPriorityQueue(boolean aStar){
+        this.aStar = aStar;
+	data = new MyHeap(false);
     }
 
     public void add(Location location){
-        data.add(location);
+	if(aStar){
+	    data.add(location);
+	} else {
+	}
     }
 
     public Location next(){

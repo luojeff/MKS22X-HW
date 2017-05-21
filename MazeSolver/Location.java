@@ -1,4 +1,4 @@
-public class Location {
+public class Location implements Comparable<Location> {
     private int row, col;
     private int distToStart, distToGoal;
 
@@ -10,7 +10,7 @@ public class Location {
     }
 
     public int compareTo(Location other){
-	return (distToStart + distToGoal) - other.distToStart - other.distToGoal;
+	return (distToStart + distToGoal) - (other.distToStart + other.distToGoal);
     }
 
     public int getRow(){return row;}

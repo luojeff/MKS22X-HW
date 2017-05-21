@@ -46,6 +46,7 @@ public class MazeSolver {
 	*/
 	while(frontier.hasNext() && !foundSolution){
 	    Location removedLoc = frontier.next();
+	    maze.set(removedLoc.getRow(),removedLoc.getCol(),'@');
 	    removed.add(removedLoc);
 	    
 	    // Updates frontier with new neighbors
@@ -55,13 +56,17 @@ public class MazeSolver {
 		}
 		if(notInData(loc, style) && notInRemoved(loc)){		    
 		    frontier.add(loc);
+		    maze.set(loc.getRow(),loc.getCol(),'?');
 		}
 	    }
+
+	    System.out.println(maze.toString(30));
 	}
 
+
+	// REMOVE AFTER FINISHED!!!
 	if(foundSolution){
 	    System.out.println("Found solution!");
-	    System.out.println("Ended with " + frontier.size() + " neighbors in data");
 	} else {
 	    System.out.println("No solution found!");
 	}
@@ -104,7 +109,7 @@ public class MazeSolver {
 		    return false;
 		}
 	    }	
-	} else if (style == 2){
+	} else if (style == 2 || style == 3){
 	    for(Location loc : ((FrontierPriorityQueue) frontier).data){
 		if(loc.getRow() == toAdd.getRow() && loc.getCol() == toAdd.getCol()){		          return false;
 		}
@@ -123,8 +128,8 @@ public class MazeSolver {
     }
 
     public static void main(String[] args){
-	MazeSolver ms = new MazeSolver("data1.txt");
+	MazeSolver ms = new MazeSolver("data4.txt");
 	ms.solve(2);
-	System.out.println(ms.maze);
+	//System.out.println(ms.maze);
     }
 }
