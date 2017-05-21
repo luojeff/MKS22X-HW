@@ -1,25 +1,25 @@
 import java.util.*; 
 
 public class QueueFrontier implements Frontier {
-    public LinkedList<Location> linked;
+    public LinkedList<Location> data;
 
     public QueueFrontier(){
-	linked = new LinkedList<Location>();
+	data = new LinkedList<Location>();
     }
 
     public void add(Location loc){
-	linked.add(loc);
+	data.add(loc);
     }
 
     public int size(){
-	return linked.size();
+	return data.size();
     }
 
     public Location next(){
-	return linked.poll();
+	return data.poll();
     }
 
     public boolean hasNext(){
-	return linked.size() > 0;
+	return data.size() > 0;
     }
 }

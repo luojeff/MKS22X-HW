@@ -1,13 +1,14 @@
 import java.util.*;
 
-public class MyHeap {
+public class MyHeap implements Iterable<Location> {
     private Location[] arr;
-    private int curr;
+    private int curr, numElements;
     private int mult = 1;
 
     public MyHeap(){
 	arr = new Location[4];	
 	curr = 0;
+	numElements = 0;
     }
 
     public MyHeap(boolean min){
@@ -30,7 +31,8 @@ public class MyHeap {
 	    curr /= 2;
 	}
 
-	curr = lastElement;	
+	curr = lastElement;
+	numElements++;
     }
 
     public Location remove(){
@@ -43,7 +45,8 @@ public class MyHeap {
 	
 	arr[curr--] = null;
 	arr[1] = replace; //replace top element with last
-	pushDown(1);	
+	pushDown(1);
+	numElements--;
 	
 	return removed;
     }
@@ -79,8 +82,12 @@ public class MyHeap {
 	return arr[1];
     }
 
-    public int getSize(){
-	return arr.length;
+    public Location get(int index){
+	return arr[index];
+    }
+
+    public int size(){
+	return numElements;
     }
 
     private void resize(){
@@ -129,5 +136,33 @@ public class MyHeap {
 	}
 
 	return ret + "]";
+    }
+	
+    public Iterator<Location> iterator(){
+	return new MyHeapIterator(this);
+    }
+
+    public class MyHeapIterator implements Iterator<Location> {
+	MyHeap myHeap;
+	int count;
+
+	public MyHeapIterator(MyHeap myHeap){
+	    this.myHeap = myHeap;
+	    count = 1;
+	}
+
+	public boolean hasNext(){
+	    return count < myHeap.size() && myHeap.get(count) != null;
+	}
+
+	public Location next(){
+	    if(hasNext()){
+		return myHeap.get(count++);
+	    } else {
+		throw new NoSuchElementException();
+	    }
+	}	
+
+	public void remove(){};
     }
 }

@@ -1,29 +1,25 @@
  import java.util.*;
 
 public class FrontierPriorityQueue implements Frontier {
-    private MyHeap myHeap;
+    public MyHeap data;
 
     public FrontierPriorityQueue(){
-	myHeap = new MyHeap(true);
+	data = new MyHeap(true);
     }
 
     public void add(Location location){
-	myHeap.add(location);
+        data.add(location);
     }
 
     public Location next(){
-	try {
-	    return myHeap.remove();
-	} catch (NoSuchElementException e){
-	    return null;
-	}
+        return data.remove();
     }
 
-    public int getSize(){
-	return myHeap.getSize();
+    public int size(){
+	return data.size();
     }
 
     public boolean hasNext(){
-	return myHeap.getSize() > 0;
+	return data.size() > 0;
     }
 }

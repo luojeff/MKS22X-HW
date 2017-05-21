@@ -1,21 +1,25 @@
 import java.util.*;
 
 public class StackFrontier implements Frontier {
-    LinkedList<Location> linked;
+    public LinkedList<Location> data;
 
     public StackFrontier(){
-	linked = new LinkedList<Location>();
+	data = new LinkedList<Location>();
     }
     
     public void add(Location loc){
-	linked.add(loc);
+	data.add(loc);
+    }
+
+    public int size(){
+	return data.size();
     }
 
     public Location next(){
-	return linked.remove();
+	return data.pop();
     }
 
     public boolean hasNext(){
-	return linked.size() > 0;
+	return data.size() > 0;
     }
 }
