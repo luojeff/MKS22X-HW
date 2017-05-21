@@ -1,4 +1,4 @@
-import java.util.*;
+ import java.util.*;
 
 public class FrontierPriorityQueue implements Frontier {
     private MyHeap myHeap;
@@ -17,5 +17,9 @@ public class FrontierPriorityQueue implements Frontier {
 	} catch (NoSuchElementException e){
 	    return null;
 	}
+    }
+
+    public int getSize(){
+	return myHeap.getSize();
     }
 }

@@ -1,7 +1,7 @@
 import java.util.*; 
 
 public class QueueFrontier implements Frontier {
-    LinkedList<Location> linked;
+    public LinkedList<Location> linked;
 
     public QueueFrontier(){
 	linked = new LinkedList<Location>();

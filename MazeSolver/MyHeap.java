@@ -79,6 +79,10 @@ public class MyHeap {
 	return arr[1];
     }
 
+    public int getSize(){
+	return arr.length;
+    }
+
     private void resize(){
 	Location[] newArr = new Location[arr.length * 2];
 

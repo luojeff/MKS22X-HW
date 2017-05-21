@@ -115,12 +115,19 @@ public class Maze {
     public char get(int row,int col){
 	return maze[row][col];
     }
+    
     public void set(int row,int col, char n){
 	maze[row][col] = n;
     }
+
+    public boolean inBounds(Location loc){
+	return loc.getRow() > 1 && loc.getRow() < maxRows-1 && loc.getCol() > 1 && loc.getCol() < maxCols-1;
+    }
+    
     public static String colorize(String s){
 	String ans = "";
 	Scanner in = new Scanner(s);
+	
 	while(in.hasNext()){
 	    String line ="";
 	    for(char c : in.nextLine().toCharArray()){
