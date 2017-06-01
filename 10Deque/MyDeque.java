@@ -24,8 +24,6 @@ public class MyDeque {
     public void resize(){
 	size *= 2;
 
-	System.out.println("Resize called to: " + size);
-
 	String[] resized = new String[size];	
 	copyTo(data, resized);
 	data = resized;
@@ -154,9 +152,8 @@ public class MyDeque {
     }
 
     public static void main(String[] args){
-	MyDeque test = new MyDeque();
-
-	/* LENGTHY TESTS */
+	
+	/*
 
 	try{
 	    test.getFirst();
@@ -208,6 +205,25 @@ public class MyDeque {
 
 	System.out.println("First: " + test.getFirst());
 	System.out.println("Last: " + test.getLast());
+	
 
+	MyDeque md = new MyDeque();
+
+	md.addFirst("hi");
+	md.addLast("bye");
+	md.addFirst("his");
+        md.addLast("rbye");
+	md.addFirst("hit");
+        md.addLast("ggbye");
+	md.addFirst("thi");
+	md.addLast("tgbye");
+	md.addFirst("this");
+
+	
+	for(int i=0; i<10; i++){
+	    md.removeFirst();
+	}
+
+	*/
     }
 }
