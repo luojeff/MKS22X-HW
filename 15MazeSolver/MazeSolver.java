@@ -101,6 +101,10 @@ public class MazeSolver {
 	return maze.toString();
     }
 
+    public String toString(int n){
+	return maze.toString(n);
+    }
+
     private boolean notInData(Location toAdd, int style){
 	if(style == 0){
 	    for(Location loc : ((StackFrontier) frontier).data){
@@ -133,9 +137,11 @@ public class MazeSolver {
 	return true;
     }
 
-    public static void main(String[] args){	
-	MazeSolver ms = new MazeSolver("data4.txt", true);
+    public static void main(String[] args){
+	/*
+	MazeSolver ms = new MazeSolver("data4.txt",true);
 	ms.solve(2);
-	System.out.println(ms);	
+	String ans = ms.toString();
+	*/
     }
 }
