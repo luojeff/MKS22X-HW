@@ -24,10 +24,20 @@ public class Quiz2Redux {
 		help(words, s, count+1);
 	    } else {
 		for(int i=0; i<size; i++){
-		    words.add(words.get(i)+s.charAt(count));	
+		    if(notInArrayList(words, words.get(i)+s.charAt(count)))
+			words.add(words.get(i)+s.charAt(count));	
 		}
 		help(words, s, count+1);
 	    }
 	}
+    }
+
+    public static boolean notInArrayList(ArrayList<String> words, String s){
+	for(String st : words){
+	    if(st.equals(s)){
+		return false;
+	    }
+	}
+	return true;
     }
 }
